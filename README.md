@@ -19,3 +19,5 @@ This was more of a one-off curiousity so I probably won't be working on it more,
   * Use LLM-as-a-Judge to classify/analyze non-censored responses vs gold-standard responses to characterize misinformation
 * Abliteration should be improved (eg, integrate optimizations from https://github.com/FailSpy/abliterator ) for layer selection (combined w/ evals)
 * KTO or some other direct reward/contrastive RL method would probably be best to try to efficiently re-align some of the problematic answers (multiple good answers to try to unlearn the default bad ones)
+
+I found one other review of Chinese LLM alignment from 2024-03 that takes a different approach to testing (not trying to find refusals, but probing for political views and biases): https://www.chinatalk.media/p/censorships-impact-on-chinas-chatbots
