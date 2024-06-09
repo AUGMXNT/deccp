@@ -9,6 +9,8 @@ Everything is Apache 2.0 licensed:
 * LLM-assisted, hand-tested refusal dataset: https://huggingface.co/datasets/augmxnt/deccp
 * Abliterated model: https://huggingface.co/augmxnt/Qwen2-7B-Instruct-deccp
 
+I've posted a full analysis/writeup here: https://huggingface.co/blog/leonardlin/chinese-llm-censorship-analysis
+
 This was more of a one-off curiousity so I probably won't be working on it more, however if anyone were to continue work:
 * Create a single potentially-censored list and do per-model checks on what's actually censored or not (EN+CN)
 * For these prompts, create gold-standard responses from GPT4, Claude3 Opus, etc.
