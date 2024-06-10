@@ -67,3 +67,30 @@ bar_layers.close()
 print("Saving modified model (with original tokenizer)...")
 model.save_pretrained("modified_model")
 tokenizer.save_pretrained("modified_model")
+
+
+'''
+Dev Notes
+---
+Code adapted from: https://github.com/Sumandora/remove-refusals-with-transformers/issues/1
+
+Model Reference:
+https://github.com/huggingface/transformers/blob/main/src/transformers/models/qwen2/modeling_qwen2.py
+https://huggingface.co/augmxnt/Qwen2-7B-Instruct-deccp/blob/main/model.safetensors.index.json
+https://huggingface.co/Qwen/Qwen-7B/blob/main/modeling_qwen.py
+
+Future reference:
+https://chatgpt.com/c/f176e037-9638-4c33-b8f2-597aab09bddd
+https://chatgpt.com/c/7b3355ad-9a4d-4e44-86d7-4ff1e1f1eeb3
+https://chatgpt.com/c/25da5e7c-80c0-4b3a-8c46-f113e7dd509a
+https://chatgpt.com/c/4edcc052-3f26-4aa5-a5f4-33902a2d2849
+https://claude.ai/chat/f5c84631-466b-40a2-bd5b-d709b24709ce
+https://claude.ai/chat/013885ce-b87b-4fca-8d88-b3c1e1091cee
+https://claude.ai/chat/cf64e2ea-6da5-4900-bd9b-4cb0300e26ee
+https://claude.ai/chat/8643e495-3ac3-403c-b6af-e836c057ff9e
+https://claude.ai/chat/9c9d264b-9a93-440b-bdd6-9d067db91b1f
+https://chat.mistral.ai/chat/15919370-83af-4562-bf84-c6a67ea7597d
+https://chat.mistral.ai/chat/73a78a2e-0c4d-4a9d-8ac4-b0a2c537a6ee
+FINALLY WORKED: https://chat.mistral.ai/chat/d3731f9c-4952-4be7-9704-e7ddab86df66
+'''
+
