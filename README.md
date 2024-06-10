@@ -1,11 +1,12 @@
 # deccp
 Evaling and unaligning Chinese LLM censorship
 
+## Summary
 This current code is a PoC for un-censoring Qwen 2 Instruct models.
 These prompts were hand-checked to see if they caused refusals specifically with [Qwen/Qwen2-7B-Instruct](https://huggingface.co/Qwen/Qwen2-7B-Instruct) and you'd need to apply this process to any other models yourself.
 
 Everything is Apache 2.0 licensed:
-* This code, based off of https://github.com/Sumandora/remove-refusals-with-transformers
+* This code s primarily based off of https://github.com/Sumandora/remove-refusals-with-transformers
 * LLM-assisted, hand-tested refusal dataset: https://huggingface.co/datasets/augmxnt/deccp
 * Abliterated model: https://huggingface.co/augmxnt/Qwen2-7B-Instruct-deccp
 
@@ -19,7 +20,18 @@ This repo includes the adapted abliteration (single vector refusal removal). For
 
 Those with an interest in vector steering may want to take a look at [Chat Vector: A Simple Approach to Equip LLMs with Instruction Following and Model Alignment in New Languages](https://arxiv.org/abs/2310.04799) - this seems to be a technique [has has been popular for a few months in Japan](https://note.com/hatti8/n/n7262c9576e3f) as you can get very good language transfer results with very low compute requirements.
 
+## Make Your Own
+This is a working repo and my understanding of torch, einops, and uh, linear algebra is patchy at best, and the code is mostly cut-and-pasted from smarter people (with some rock-banging from my end), but it does seem to work.
+
+I've renamed the scripts for the actual workflow from 01-04, which should get you to modified weights on huggingface with only a few variable changes (for Qwen2 models - otherwise you're going to need to look at your architecture's layer setup), so feel free to fork this and give it a spin if you want (but no, I won't be supporting this codebase at all).
+
+You should also modify the "harmful" and "harmless" text files to taste. I don't love the nomenclature, but I was also too lazy to change it so ¯\_(ツ)_/¯
+
+
+## Future Work
+
 This was more of a one-off curiousity so I probably won't be working on it more, however if anyone were to continue work:
+
 * Create a single potentially-censored list and do per-model checks on what's actually censored or not (EN+CN)
 * For these prompts, create gold-standard responses from GPT4, Claude3 Opus, etc.
 * Chinese Model Eval Framework
