@@ -6,7 +6,7 @@ This current code is a PoC for un-censoring Qwen 2 Instruct models.
 These prompts were hand-checked to see if they caused refusals specifically with [Qwen/Qwen2-7B-Instruct](https://huggingface.co/Qwen/Qwen2-7B-Instruct) and you'd need to apply this process to any other models yourself.
 
 Everything is Apache 2.0 licensed:
-* This code s primarily based off of https://github.com/Sumandora/remove-refusals-with-transformers
+* This code is primarily based off of https://github.com/Sumandora/remove-refusals-with-transformers
 * LLM-assisted, hand-tested refusal dataset: https://huggingface.co/datasets/augmxnt/deccp
 * Abliterated model: https://huggingface.co/augmxnt/Qwen2-7B-Instruct-deccp
 
