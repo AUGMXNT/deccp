@@ -1,9 +1,13 @@
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, TextStreamer
 
 model_path = "modified_model"
+model_path = "augmxnt/Qwen2-7B-Instruct-deccp"
+model_path = "Qwen/Qwen2-7B-Instruct"
 model = AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True, device_map="auto", torch_dtype=torch.bfloat16)
 tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+
+streamer = TextStreamer(tokenizer)
 
 with open("harmful.txt", "r") as f:
     harmful = f.readlines()
