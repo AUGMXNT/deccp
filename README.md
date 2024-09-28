@@ -41,3 +41,25 @@ This was more of a one-off curiousity so I probably won't be working on it more,
 * KTO or some other direct reward/contrastive RL method would probably be best to try to efficiently re-align some of the problematic answers (multiple good answers to try to unlearn the default bad ones)
 
 I found one other review of Chinese LLM alignment from 2024-03 that takes a different approach to testing (not trying to find refusals, but probing for political views and biases): https://www.chinatalk.media/p/censorships-impact-on-chinas-chatbots
+
+## Update
+Someone pointed me to TC260-003. Here's some more info:
+- https://finadium.com/geopolitechs-chinas-new-national-standard-on-genai-service-safety/
+- https://www.geopolitechs.org/p/whats-in-chinas-new-national-standard
+
+> Following [the release of TC260-003 "Basic Requirements for the Security of Generative Artificial Intelligence Services"](https://www.geopolitechs.org/p/china-further-clarifies-security) （TC260 doc）by China’s National Cybersecurity Standardization Technical Committee (TC260) on March 4th, the committee has now issued another draft national standard titled "[Cybersecurity Technology - Basic Requirements for the Security of Generative Artificial Intelligence Services.](https://www.tc260.org.cn/front/bzzqyjDetail.html?id=20240523143149&norm_id=20240430101922&recode_id=55010)" This new standard is open for public comments until July 22nd.
+
+- https://uk.practicallaw.thomsonreuters.com/w-020-9089?transitionType=Default&contextData=(sc.Default)&firstPage=true
+- https://uk.practicallaw.thomsonreuters.com/w-020-9089?transitionType=Default&contextData=(sc.Default)&firstPage=true#co_anchor_a800827
+
+TC260-003: Basic Requirements for the Security of Generative Artificial Intelligence Services
+- https://www.tc260.org.cn/front/postDetail.html?id=20240301164054
+- See also: https://www.tc260.org.cn/front/hydtList.html?postType=2&start=10&length=10
+
+Professional English Translation: https://cset.georgetown.edu/wp-content/uploads/t0588_generative_AI_safety_EN.pdf
+
+> The following Chinese standard for generative AI establishes very specific oversight processes that Chinese AI companies must adopt in regard to their model training data, model-generated content, and more. The standard names more than 30 specific safety risks, some of which—algorithmic bias, disclosure of personally identifiable information, copyright infringement—are widely recognized internationally. Others, such as guidelines on how to answer questions about China’s political system and Chinese history, are specific to the tightly censored Chinese internet. One notable addition to this document, relative to a preliminary draft released in October 2023, is a clause requiring a supply chain security assessment of Chinese generative AI models’ underlying hardware and software.
+
+See also:
+- https://chinadigitaltimes.net/2016/06/five-years-sensitive-words-june-fourth/
+- https://qz.com/698990/261-ways-to-refer-to-the-tiananmen-square-massacre-in-china
