@@ -70,7 +70,7 @@ class MinosRefusalClassifier:
             "confidence": probabilities[0][prediction.item()].item()
         }
 
-def load_model(model_name, gpu_memory_utilization=0.9):
+def load_model(model_name, gpu_memory_utilization=0.8):
     """Load the model using vLLM"""
     print(f"Loading model: {model_name}")
     llm = LLM(model=model_name, gpu_memory_utilization=gpu_memory_utilization, max_model_len=16384)
@@ -80,22 +80,23 @@ def load_deccp_dataset():
     """Load the augmxnt/deccp dataset"""
     print("Loading augmxnt/deccp dataset")
     dataset = load_dataset("augmxnt/deccp")
-    return dataset["censored"]
+    return dataset["censored"]  # Assuming dataset is stored in "train" split
 
-def get_model_response(llm, prompt, max_tokens=1024, temperature=0.0, top_p=1.0):
-    """Get model response using vLLM"""
-    # Create a system prompt + user prompt conversation
-    conversation = [
-        {
-            "role": "system",
-            "content": "You are a helpful assistant"
-        },
-        {
-            "role": "user",
-            "content": prompt
-        }
-    ]
-    
+def prepare_conversations(prompts):
+    """Prepare batch of conversations from prompts"""
+    conversations = []
+    for prompt in prompts:
+        conversation = [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+        conversations.append(conversation)
+    return conversations
+
+def get_model_responses_batch(llm, prompts, max_tokens=1024, temperature=0.0, top_p=1.0, batch_size=32):
+    """Get model responses in batches using vLLM"""
     # Set sampling parameters
     sampling_params = SamplingParams(
         max_tokens=max_tokens,
@@ -103,12 +104,22 @@ def get_model_response(llm, prompt, max_tokens=1024, temperature=0.0, top_p=1.0)
         top_p=top_p,
     )
     
-    # Get response
-    outputs = llm.chat(conversation, sampling_params)
-    response = outputs[0].outputs[0].text
-    return response
+    # Process in batches
+    all_responses = []
+    for i in range(0, len(prompts), batch_size):
+        batch_prompts = prompts[i:i+batch_size]
+        conversations = prepare_conversations(batch_prompts)
+        
+        # Get responses
+        outputs = llm.chat(conversations, sampling_params)
+        
+        # Extract text responses
+        batch_responses = [output.outputs[0].text for output in outputs]
+        all_responses.extend(batch_responses)
+    
+    return all_responses
 
-def run_tests(model_name, save_dir="results", num_samples=None, max_tokens=1024):
+def run_tests(model_name, save_dir="results", num_samples=None, max_tokens=1024, batch_size=16):
     """Run the tests on the dataset and save results"""
     os.makedirs(save_dir, exist_ok=True)
     
@@ -121,16 +132,24 @@ def run_tests(model_name, save_dir="results", num_samples=None, max_tokens=1024)
     if num_samples is not None and num_samples > 0:
         dataset = dataset.select(range(min(num_samples, len(dataset))))
     
+    # Extract all prompts
+    all_prompts = [example["text"] for example in dataset]
+    
+    # Process all prompts in batches
+    print(f"Processing {len(all_prompts)} prompts in batches of {batch_size}...")
+    all_responses = get_model_responses_batch(
+        llm, 
+        all_prompts, 
+        max_tokens=max_tokens, 
+        batch_size=batch_size
+    )
+    
     results = []
     refusal_count = 0
     
-    # Process each dataset example
-    for i, example in enumerate(tqdm(dataset, desc="Testing prompts")):
-        prompt = example["text"]
-        
-        # Get model response
-        response = get_model_response(llm, prompt, max_tokens=max_tokens)
-        
+    # Classify all responses
+    print("Classifying responses...")
+    for i, (prompt, response) in enumerate(tqdm(zip(all_prompts, all_responses), desc="Classifying responses", total=len(all_prompts))):
         # Classify the response
         classification = classifier.predict(prompt, response)
         
@@ -194,6 +213,7 @@ def main():
     parser.add_argument("--max-tokens", type=int, default=1024, help="Maximum tokens for response generation")
     parser.add_argument("--save-dir", type=str, default="results", help="Directory to save results")
     parser.add_argument("--gpu-memory-utilization", type=float, default=0.9, help="GPU memory utilization for vLLM")
+    parser.add_argument("--batch-size", type=int, default=16, help="Batch size for inference")
     
     args = parser.parse_args()
     
@@ -201,7 +221,8 @@ def main():
         model_name=args.model,
         save_dir=args.save_dir,
         num_samples=args.num_samples,
-        max_tokens=args.max_tokens
+        max_tokens=args.max_tokens,
+        batch_size=args.batch_size
     )
 
 if __name__ == "__main__":
